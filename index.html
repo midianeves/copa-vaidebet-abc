@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Copa Vaidebet ABC</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #F5C518;
+  --gold-dark: #D4A800;
+  --black: #0A0A0A;
+  --dark2: #1A1A1A;
+  --dark3: #242424;
+  --white: #FFFFFF;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+.slide { width: 100%; min-height: 100vh; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: 48px 24px; }
+.bg-num { position: absolute; right: 12px; top: 16px; font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px,18vw,120px); color: rgba(245,197,24,0.06); line-height:1; pointer-events:none; user-select:none; }
+
+.label { display:flex; align-items:center; gap:10px; font-family:'Oswald',sans-serif; font-size:11px; font-weight:400; letter-spacing:4px; color:var(--gold); text-transform:uppercase; margin-bottom:12px; }
+.label::before { content:''; display:block; width:24px; height:2px; background:var(--gold); flex-shrink:0; }
+.h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(44px,11vw,80px); line-height:1; margin-bottom:16px; }
+.h1 .g { color:var(--gold); }
+.body-text { font-family:'Inter',sans-serif; font-size:15px; line-height:1.75; color:rgba(255,255,255,0.65); margin-bottom:16px; }
+.body-text strong { color:var(--gold); font-weight:500; }
+.highlight { background:rgba(245,197,24,0.07); border-left:3px solid var(--gold); border-radius:0 8px 8px 0; padding:16px 18px; margin-top:16px; }
+.highlight .hl-label { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; margin-bottom:6px; }
+.highlight p { font-family:'Inter',sans-serif; font-size:14px; color:rgba(255,255,255,0.8); line-height:1.6; }
+.card { background:var(--dark2); border:1px solid rgba(245,197,24,0.12); border-radius:12px; padding:20px; }
+
+/* S1 CAPA */
+#s1 { background: radial-gradient(ellipse at 60% 40%, rgba(245,197,24,0.10) 0%, transparent 60%), linear-gradient(160deg,#060606 0%,#111 100%); text-align:center; padding-top:64px; padding-bottom:64px; justify-content:center; align-items:center; }
+#s1 .badge { display:inline-block; background:var(--gold); color:var(--black); font-family:'Oswald',sans-serif; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; padding:6px 16px; border-radius:2px; margin-bottom:28px; }
+#s1 .capa-eyebrow { font-family:'Oswald',sans-serif; font-size:12px; letter-spacing:4px; color:rgba(245,197,24,0.7); text-transform:uppercase; margin-bottom:8px; }
+#s1 .capa-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(60px,20vw,120px); line-height:0.85; margin-bottom:4px; }
+#s1 .capa-vaidebet { font-family:'Bebas Neue',sans-serif; font-size:clamp(52px,17vw,100px); color:var(--gold); line-height:0.9; margin-bottom:12px; }
+#s1 .capa-sub { font-family:'Bebas Neue',sans-serif; font-size:clamp(22px,7vw,44px); letter-spacing:4px; color:var(--gold); margin-bottom:32px; }
+.trophy-anim { font-size:80px; display:block; margin:0 auto 28px; animation:float 3s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(245,197,24,0.4)); }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+#s1 .taglines { margin-bottom:32px; }
+#s1 .tagline { font-family:'Oswald',sans-serif; font-size:14px; font-weight:300; color:rgba(255,255,255,0.55); letter-spacing:1px; margin-bottom:4px; }
+#s1 .tagline strong { color:var(--gold); font-weight:600; }
+.stats-row { display:flex; justify-content:center; gap:0; border-top:1px solid rgba(245,197,24,0.15); padding-top:28px; flex-wrap:wrap; }
+.stat-item { text-align:center; padding:0 16px; border-right:1px solid rgba(255,255,255,0.06); }
+.stat-item:last-child { border-right:none; }
+.stat-num { font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--gold); line-height:1; }
+.stat-label { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:1.5px; color:rgba(255,255,255,0.4); text-transform:uppercase; margin-top:4px; line-height:1.3; }
+
+/* S2 SOBRE */
+#s2 { background: linear-gradient(160deg,#0d0d0d,#141414); }
+.city-row { display:flex; align-items:center; gap:14px; padding:13px 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.city-row:last-child { border-bottom:none; }
+.city-num { width:30px; height:30px; border-radius:50%; background:rgba(245,197,24,0.12); border:1px solid rgba(245,197,24,0.3); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--gold); flex-shrink:0; }
+.city-info { flex:1; }
+.city-name { font-family:'Oswald',sans-serif; font-size:15px; font-weight:500; }
+.city-pop { font-size:11px; color:rgba(255,255,255,0.38); margin-top:2px; }
+.city-badge { font-family:'Oswald',sans-serif; font-size:10px; background:rgba(245,197,24,0.1); color:var(--gold); padding:4px 10px; border-radius:20px; letter-spacing:1px; white-space:nowrap; }
+.total-box { background:rgba(245,197,24,0.07); border-radius:8px; padding:14px; text-align:center; margin-top:16px; }
+.total-box .tn { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--gold); }
+.total-box .tl { font-family:'Oswald',sans-serif; font-size:11px; color:rgba(255,255,255,0.4); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+
+/* S2B ABC INFO */
+#s2b { background: #0e0e0e; }
+.abc-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px; }
+.abc-info-card { background:var(--dark2); border:1px solid rgba(245,197,24,0.1); border-radius:10px; padding:14px 16px; }
+.abc-info-card .aic-icon { font-size:22px; margin-bottom:8px; }
+.abc-info-card .aic-title { font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.abc-info-card .aic-text { font-size:12px; color:rgba(255,255,255,0.5); line-height:1.5; }
+
+/* MAP SVG */
+.map-wrap { margin:20px 0; background:rgba(245,197,24,0.03); border:1px solid rgba(245,197,24,0.12); border-radius:12px; padding:16px; overflow:hidden; }
+.map-title { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:3px; color:var(--gold); text-transform:uppercase; text-align:center; margin-bottom:12px; }
+
+/* S3 PROPÓSITO */
+#s3 { background: #0a0a0a; }
+.purpose-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+.purpose-card { background:var(--dark2); border:1px solid rgba(245,197,24,0.1); border-radius:12px; padding:20px 16px; border-top:2px solid var(--gold); }
+.purpose-card .pi { font-size:28px; margin-bottom:10px; }
+.purpose-card .pt { font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--white); line-height:1.3; }
+
+/* S4 ESTRUTURA */
+#s4 { background: linear-gradient(160deg,#0d0d0d,#111); }
+.phase-item { display:flex; gap:16px; position:relative; }
+.phase-left { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+.phase-dot { width:38px; height:38px; border-radius:50%; background:var(--dark3); border:2px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; z-index:2; }
+.phase-connector { width:2px; flex:1; min-height:24px; background:linear-gradient(to bottom,rgba(245,197,24,0.4),rgba(245,197,24,0.05)); margin:3px 0; }
+.phase-item:last-child .phase-connector { display:none; }
+.phase-content { padding-bottom:24px; flex:1; }
+.phase-name { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--gold); letter-spacing:1px; margin-bottom:5px; }
+.phase-desc { font-family:'Inter',sans-serif; font-size:13px; color:rgba(255,255,255,0.55); line-height:1.6; }
+.phase-badge { display:inline-block; background:rgba(245,197,24,0.12); border:1px solid rgba(245,197,24,0.3); color:var(--gold); font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:1px; padding:4px 10px; border-radius:4px; margin-top:6px; }
+.pyramid-row { background:rgba(245,197,24,0.06); border:1px solid rgba(245,197,24,0.15); border-radius:8px; padding:12px 16px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
+.pyramid-row.gold { background:rgba(245,197,24,0.15); border-color:rgba(245,197,24,0.4); }
+.pyramid-row .pr-label { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--gold); }
+.pyramid-row .pr-sub { font-family:'Inter',sans-serif; font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px; }
+.pyramid-row .pr-icon { font-size:24px; }
+
+/* S5 SEDES */
+#s5 { background: #0a0a0a; text-align:center; }
+.cities-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+.city-card { background:var(--dark2); border:1px solid rgba(245,197,24,0.1); border-radius:12px; padding:20px 14px; text-align:center; border-bottom:2px solid var(--gold); }
+.city-card .ci { width:64px; height:64px; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; }
+.city-card .ci img { width:100%; height:100%; object-fit:contain; }
+.city-card .cn { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--white); letter-spacing:1px; margin-bottom:4px; }
+.city-card .cp { font-size:11px; color:rgba(255,255,255,0.35); margin-bottom:10px; }
+.city-card .ct { background:rgba(245,197,24,0.08); border-radius:6px; padding:7px 4px; font-family:'Oswald',sans-serif; font-size:12px; color:var(--gold); letter-spacing:1px; text-transform:uppercase; }
+.city-card .cf { margin-top:8px; font-size:11px; color:rgba(255,255,255,0.3); font-style:italic; line-height:1.4; }
+
+/* S6 EXPERIÊNCIA */
+#s6 { background: linear-gradient(135deg,#0d0d0d,#141414); }
+.exp-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px; }
+.exp-card { background:var(--dark3); border:1px solid rgba(245,197,24,0.08); border-radius:12px; padding:18px 14px; }
+.exp-card .ei { font-size:26px; margin-bottom:8px; }
+.exp-card .et { font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.exp-card .ed { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.4; }
+.std-list { margin-top:16px; display:flex; flex-direction:column; gap:0; }
+.std-item { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+.std-item:last-child { border-bottom:none; }
+.std-dot { width:7px; height:7px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+.std-item span { font-size:13px; color:rgba(255,255,255,0.65); line-height:1.4; }
+
+/* S7 TRANSMISSÃO */
+#s7 { background: #090909; }
+.media-item { display:flex; align-items:center; gap:16px; background:var(--dark2); border:1px solid rgba(245,197,24,0.08); border-radius:12px; padding:16px 18px; margin-bottom:12px; }
+.media-icon { width:44px; height:44px; border-radius:10px; background:rgba(245,197,24,0.1); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+.media-title { font-family:'Oswald',sans-serif; font-size:15px; font-weight:500; margin-bottom:3px; }
+.media-desc { font-size:12px; color:rgba(255,255,255,0.38); line-height:1.4; }
+.live-box { background:linear-gradient(135deg,rgba(245,197,24,0.08),rgba(245,197,24,0.02)); border:1px solid rgba(245,197,24,0.2); border-radius:12px; padding:24px; text-align:center; margin-top:20px; }
+.live-badge { display:inline-flex; align-items:center; gap:8px; background:#CC0000; color:#fff; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:3px; padding:6px 16px; border-radius:4px; margin-bottom:14px; animation:pulse-live 1.5s infinite; }
+.live-badge::before { content:''; width:7px; height:7px; border-radius:50%; background:#fff; }
+@keyframes pulse-live { 0%,100%{opacity:1} 50%{opacity:0.6} }
+.live-box .lt { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--white); line-height:1.1; }
+.live-box .lt span { color:var(--gold); }
+.live-box .ls { margin-top:12px; font-family:'Oswald',sans-serif; font-size:12px; color:rgba(255,255,255,0.35); letter-spacing:2px; text-transform:uppercase; }
+
+/* S8 PREMIAÇÃO */
+#s8 { background: linear-gradient(135deg,#0a0a0a,#0f0f0f); }
+.podium-row { display:flex; justify-content:center; align-items:flex-end; gap:10px; margin:20px 0; }
+.podium-item { display:flex; flex-direction:column; align-items:center; }
+.podium-item .pic { font-size:32px; margin-bottom:6px; }
+.podium-item .plabel { font-family:'Oswald',sans-serif; font-size:10px; color:rgba(255,255,255,0.5); text-align:center; letter-spacing:0.5px; text-transform:uppercase; line-height:1.3; margin-bottom:4px; }
+.podium-item .pval { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--gold); margin-bottom:6px; }
+.podium-block { width:80px; border-radius:6px 6px 0 0; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--black); }
+.pb-1 { height:80px; background:linear-gradient(135deg,#F5C518,#D4A800); }
+.pb-2 { height:55px; background:linear-gradient(135deg,#C0C0C0,#909090); }
+.pb-r { height:40px; background:linear-gradient(135deg,#CD7F32,#8B4513); }
+.awards-table { width:100%; border-collapse:collapse; margin-top:8px; }
+.awards-table tr { border-bottom:1px solid rgba(255,255,255,0.04); }
+.awards-table td { padding:10px 8px; font-family:'Inter',sans-serif; font-size:13px; vertical-align:middle; }
+.awards-table td:first-child { color:rgba(255,255,255,0.6); }
+.awards-table td:last-child { color:var(--gold); font-family:'Oswald',sans-serif; font-size:14px; font-weight:600; text-align:right; }
+.total-strip { display:flex; justify-content:space-between; align-items:center; background:rgba(245,197,24,0.08); border:1px solid rgba(245,197,24,0.2); border-radius:8px; padding:14px 18px; margin-top:12px; }
+.total-strip .tsl { font-family:'Oswald',sans-serif; font-size:13px; color:rgba(255,255,255,0.6); text-transform:uppercase; letter-spacing:1px; }
+.total-strip .tsv { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--gold); }
+.extra-badges { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.extra-badge { flex:1; min-width:80px; background:var(--dark3); border:1px solid rgba(245,197,24,0.08); border-radius:10px; padding:12px 8px; text-align:center; }
+.extra-badge .ebi { font-size:20px; margin-bottom:6px; }
+.extra-badge .ebt { font-family:'Oswald',sans-serif; font-size:10px; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.5px; line-height:1.3; }
+.award-detail { background:rgba(245,197,24,0.05); border:1px solid rgba(245,197,24,0.15); border-radius:8px; padding:12px 14px; margin-top:10px; font-size:12px; color:rgba(255,255,255,0.55); line-height:1.6; }
+.award-detail strong { color:var(--gold); font-weight:500; }
+
+/* S9 VISIBILIDADE */
+#s9 { background: #0a0a0a; }
+.vis-item { display:flex; gap:14px; align-items:flex-start; margin-bottom:18px; }
+.vis-num { width:34px; height:34px; border-radius:8px; flex-shrink:0; background:rgba(245,197,24,0.1); border:1px solid rgba(245,197,24,0.2); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--gold); }
+.vis-title { font-family:'Oswald',sans-serif; font-size:15px; font-weight:500; margin-bottom:3px; }
+.vis-desc { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.5; }
+.brand-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
+.brand-tag { background:rgba(245,197,24,0.08); border:1px solid rgba(245,197,24,0.15); border-radius:20px; padding:6px 14px; font-family:'Oswald',sans-serif; font-size:12px; color:var(--gold); letter-spacing:0.5px; }
+
+/* S10 FINANCEIRO */
+#s10 { background: linear-gradient(160deg,#090909,#111); padding-top:48px; padding-bottom:48px; }
+.fin-cat { background:var(--dark2); border:1px solid rgba(245,197,24,0.1); border-top:2px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:12px; }
+.fin-cat-title { font-family:'Oswald',sans-serif; font-size:11px; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:12px; }
+.fin-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
+.fin-row:last-of-type { border-bottom:none; }
+.fin-row .fn { font-size:12px; color:rgba(255,255,255,0.5); flex:1; padding-right:8px; }
+.fin-row .fv { font-family:'Oswald',sans-serif; font-size:13px; color:rgba(255,255,255,0.8); white-space:nowrap; }
+.fin-subtotal { display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(245,197,24,0.2); margin-top:10px; padding-top:10px; }
+.fin-subtotal .fs-label { font-family:'Oswald',sans-serif; font-size:11px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px; }
+.fin-subtotal .fs-val { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--gold); }
+.agenc-box { background:rgba(245,197,24,0.07); border:1px solid rgba(245,197,24,0.25); border-radius:10px; padding:16px 18px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.agenc-box .al { font-family:'Oswald',sans-serif; font-size:12px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; line-height:1.4; }
+.agenc-box .av { font-family:'Bebas Neue',sans-serif; font-size:24px; color:var(--gold); white-space:nowrap; }
+.soma-box { display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:14px 18px; margin-bottom:10px; }
+.soma-box .sl { font-family:'Oswald',sans-serif; font-size:12px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1px; }
+.soma-box .sv { font-family:'Bebas Neue',sans-serif; font-size:20px; color:rgba(255,255,255,0.7); }
+.grand-box { background:linear-gradient(135deg,rgba(245,197,24,0.14),rgba(245,197,24,0.04)); border:1px solid rgba(245,197,24,0.35); border-top:3px solid var(--gold); border-radius:12px; padding:24px; text-align:center; }
+.grand-box .gl { font-family:'Oswald',sans-serif; font-size:11px; font-weight:600; letter-spacing:4px; color:rgba(255,255,255,0.5); text-transform:uppercase; margin-bottom:8px; }
+.grand-box .gv { font-family:'Bebas Neue',sans-serif; font-size:clamp(40px,10vw,56px); color:var(--gold); line-height:1; text-shadow:0 0 20px rgba(245,197,24,0.3); }
+.grand-box .gs { font-size:11px; color:rgba(255,255,255,0.3); margin-top:6px; }
+
+/* S11 EVOLUT */
+#s11 { background: linear-gradient(160deg,#0a0a0a,#101010); }
+.evolut-center { text-align:center; margin-bottom:32px; }
+.evolut-icon { font-size:64px; display:block; margin:0 auto 12px; animation:float 4s ease-in-out infinite; }
+.evolut-name { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:4px; line-height:1; }
+.evolut-sub { font-family:'Oswald',sans-serif; font-size:13px; color:var(--gold); letter-spacing:4px; text-transform:uppercase; margin-top:4px; }
+.evolut-tagline { font-size:13px; color:rgba(255,255,255,0.3); font-style:italic; margin-top:8px; }
+.evolut-feat { display:flex; gap:14px; align-items:center; background:var(--dark2); border:1px solid rgba(245,197,24,0.06); border-radius:10px; padding:16px 18px; margin-bottom:10px; }
+.evolut-feat .efi { font-size:24px; flex-shrink:0; }
+.evolut-feat .eft strong { display:block; font-family:'Oswald',sans-serif; font-size:14px; font-weight:500; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px; }
+.evolut-feat .eft span { font-size:12px; color:rgba(255,255,255,0.4); line-height:1.4; }
+
+/* S12 FECHAMENTO */
+#s12 { background: radial-gradient(ellipse at 50% 40%,rgba(245,197,24,0.12) 0%,transparent 60%), linear-gradient(135deg,#080808,#0d0d0d); text-align:center; align-items:center; }
+.stars { display:flex; gap:6px; justify-content:center; margin-bottom:20px; }
+.stars span { font-size:18px; color:var(--gold); opacity:0.8; }
+.close-divider { width:60px; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:20px auto; }
+.close-body { font-size:15px; line-height:1.75; color:rgba(255,255,255,0.55); max-width:480px; margin:0 auto 32px; }
+.close-body strong { color:var(--gold); font-weight:500; }
+.brands-row { display:flex; align-items:center; gap:16px; justify-content:center; flex-wrap:wrap; }
+.brands-row .br-name { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:3px; color:rgba(255,255,255,0.22); }
+.brands-row .br-sep { width:1px; height:30px; background:rgba(255,255,255,0.08); }
+.brands-row .br-main { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; color:var(--gold); }
+
+/* NAV */
+.nav-dots { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:7px; z-index:1000; background:rgba(0,0,0,0.5); backdrop-filter:blur(8px); padding:8px 14px; border-radius:20px; border:1px solid rgba(245,197,24,0.1); }
+.nav-dot { width:7px; height:7px; border-radius:50%; background:rgba(245,197,24,0.25); border:none; cursor:pointer; transition:all 0.3s; padding:0; }
+.nav-dot.active { background:var(--gold); transform:scale(1.4); }
+
+/* DESKTOP */
+@media (min-width:768px) {
+  .slide { padding:80px; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:center; }
+  .cities-grid { grid-template-columns:repeat(4,1fr); }
+  .finance-grid-desk { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  #s1 { padding:80px; }
+  .stats-row .stat-item { padding:0 32px; }
+  .stat-num { font-size:44px; }
+  .trophy-anim { font-size:110px; }
+  .nav-dots { right:20px; left:auto; bottom:auto; top:50%; transform:translateY(-50%); flex-direction:column; background:none; backdrop-filter:none; border:none; padding:0; gap:10px; }
+}
+@media (min-width:1024px) {
+  .finance-grid-desk { grid-template-columns:repeat(4,1fr); }
+}
+
+/* ANIMATIONS */
+.fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+.fade-in.show { opacity:1; transform:translateY(0); }
+.fade-in:nth-child(2){transition-delay:0.08s} .fade-in:nth-child(3){transition-delay:0.16s} .fade-in:nth-child(4){transition-delay:0.24s} .fade-in:nth-child(5){transition-delay:0.32s} .fade-in:nth-child(6){transition-delay:0.40s}
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- ══ S1 CAPA ══ -->
+<section class="slide" id="s1" data-slide="1">
+  <div class="bg-num">01</div>
+  <span class="badge fade-in">EVOLUT SPORTS &amp; EVENTS</span>
+  <p class="capa-eyebrow fade-in">Apresentação Oficial</p>
+  <span class="trophy-anim fade-in">🏆</span>
+  <h1 class="capa-title fade-in">COPA</h1>
+  <h1 class="capa-vaidebet fade-in">VAIDEBET</h1>
+  <h2 class="capa-sub fade-in">ABC PAULISTA</h2>
+  <div class="taglines fade-in">
+    <p class="tagline"><strong>QUATRO CIDADES.</strong> UM SÓ CAMPEÃO.</p>
+    <p class="tagline"><strong>INÍCIO:</strong> 14 DE SETEMBRO DE 2026</p>
+  </div>
+  <div class="stats-row fade-in">
+    <div class="stat-item"><div class="stat-num">64</div><div class="stat-label">Equipes</div></div>
+    <div class="stat-item"><div class="stat-num">4</div><div class="stat-label">Sedes</div></div>
+    <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">Cidades<br>ABC</div></div>
+    <div class="stat-item"><div class="stat-num">2,5M</div><div class="stat-label">Habitantes</div></div>
+  </div>
+</section>
+
+<!-- ══ S2 SOBRE ══ -->
+<section class="slide" id="s2" data-slide="2">
+  <div class="bg-num">02</div>
+  <div class="two-col" style="position:relative;z-index:5;width:100%">
+    <div>
+      <p class="label fade-in">Sobre o Projeto</p>
+      <h2 class="h1 fade-in">SOBRE <span class="g">O PROJETO</span></h2>
+      <p class="body-text fade-in">A Copa Vaidebet ABC é uma competição de futebol amador de alto nível que reúne as melhores equipes das comunidades do ABC Paulista — região com <strong>mais de 2,5 milhões de habitantes</strong> e uma das mais importantes da Região Metropolitana de São Paulo.</p>
+      <p class="body-text fade-in">Mais que um torneio, é um movimento que conecta comunidades, impulsiona talentos e fortalece o esporte de base em toda a região do Grande ABC.</p>
+      <div class="highlight fade-in">
+        <div class="hl-label">Nosso Objetivo</div>
+        <p>Elevar o futebol amador a um novo patamar de organização, visibilidade e impacto social na região. <strong style="color:var(--gold)">Início: 14 de Setembro de 2026.</strong></p>
+      </div>
+    </div>
+    <div class="fade-in">
+      <div class="card">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);margin-bottom:16px;">🏙️ SEDES DA COPA</div>
+        <div class="city-row"><div class="city-num">1</div><div class="city-info"><div class="city-name">Diadema</div><div class="city-pop">~393.000 habitantes</div></div><div class="city-badge">16 EQ.</div></div>
+        <div class="city-row"><div class="city-num">2</div><div class="city-info"><div class="city-name">Mauá</div><div class="city-pop">~425.000 habitantes</div></div><div class="city-badge">16 EQ.</div></div>
+        <div class="city-row"><div class="city-num">3</div><div class="city-info"><div class="city-name">Santo André</div><div class="city-pop">~750.000 habitantes</div></div><div class="city-badge">16 EQ.</div></div>
+        <div class="city-row"><div class="city-num">4</div><div class="city-info"><div class="city-name">São Bernardo do Campo</div><div class="city-pop">~851.000 habitantes</div></div><div class="city-badge">16 EQ.</div></div>
+        <div class="total-box">
+          <div class="tn">+2.500.000</div>
+          <div class="tl">Habitantes Impactados no ABC</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S2B ABC PAULISTA INFO ══ -->
+<section class="slide" id="s2b" data-slide="3">
+  <div class="bg-num">03</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">A Região</p>
+    <h2 class="h1 fade-in">O <span class="g">ABC PAULISTA</span></h2>
+    <p class="body-text fade-in">O <strong>ABC Paulista</strong> (ou Grande ABC) é uma importante região industrial e econômica da Região Metropolitana de São Paulo. Composta por <strong>7 municípios</strong>, a região abriga mais de 2,5 milhões de habitantes, sendo famosa pelo forte polo automotivo, infraestrutura e proximidade com a capital paulista.</p>
+    <p class="body-text fade-in">O nome histórico derivou das iniciais das três primeiras cidades: <strong>Santo André, São Bernardo e São Caetano</strong>. Hoje a região é formada por 7 cidades — e a Copa Vaidebet ABC alcança todas elas.</p>
+
+    <!-- Mapa real do ABC Paulista -->
+    <div class="map-wrap fade-in">
+      <div class="map-title">📍 As 7 Cidades do ABC Paulista</div>
+      <div style="position:relative;width:100%;max-width:500px;margin:0 auto;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Regiao_abc.png/400px-Regiao_abc.png" alt="Mapa ABC Paulista" style="width:100%;border-radius:8px;opacity:0.85;filter:sepia(30%) hue-rotate(5deg) saturate(1.2);">
+        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.7);border:1px solid rgba(245,197,24,0.3);border-radius:6px;padding:6px 10px;">
+          <div style="font-family:'Oswald',sans-serif;font-size:10px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Sedes da Copa</div>
+          <div style="font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.6);line-height:1.6;">
+            • Diadema<br>• Mauá<br>• Santo André<br>• S. Bernardo
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="abc-info-grid fade-in">
+      <div class="abc-info-card"><div class="aic-icon">🏭</div><div class="aic-title">Polo Industrial</div><div class="aic-text">Uma das maiores regiões industriais do Brasil, famosa pelo polo automotivo</div></div>
+      <div class="abc-info-card"><div class="aic-icon">👥</div><div class="aic-title">7 Municípios</div><div class="aic-text">Santo André, S. Bernardo, S. Caetano, Diadema, Mauá, Ribeirão Pires e Rio Grande da Serra</div></div>
+      <div class="abc-info-card"><div class="aic-icon">📍</div><div class="aic-title">Localização</div><div class="aic-text">Região Metropolitana de SP, com total conectividade com a capital paulista</div></div>
+      <div class="abc-info-card"><div class="aic-icon">⚽</div><div class="aic-title">Alcance da Copa</div><div class="aic-text">A Copa Vaidebet ABC impacta toda a região, unindo as 7 cidades em torno do futebol</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S3 PROPÓSITO ══ -->
+<section class="slide" id="s3" data-slide="4">
+  <div class="bg-num">04</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Propósito</p>
+    <h2 class="h1 fade-in">PROPÓ<span class="g">SITO</span></h2>
+    <p class="body-text fade-in">Transformar o futebol amador em uma plataforma de <strong>desenvolvimento humano, social e esportivo</strong> no ABC Paulista.</p>
+    <div class="purpose-grid fade-in">
+      <div class="purpose-card"><div class="pi">🤝</div><div class="pt">Gerar Oportunidades</div></div>
+      <div class="purpose-card"><div class="pi">⭐</div><div class="pt">Revelar Talentos</div></div>
+      <div class="purpose-card"><div class="pi">❤️</div><div class="pt">Impactar Comunidades Economicamente</div></div>
+      <div class="purpose-card"><div class="pi">🏅</div><div class="pt">Valorizar o Esporte</div></div>
+    </div>
+    <div class="highlight fade-in" style="margin-top:20px">
+      <div class="hl-label">Visão</div>
+      <p>Ser referência de organização no futebol amador do Grande ABC, conectando marcas, atletas e comunidades em um mesmo movimento.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S4 ESTRUTURA ══ -->
+<section class="slide" id="s4" data-slide="5">
+  <div class="bg-num">05</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Competição</p>
+    <h2 class="h1 fade-in">ESTRU<span class="g">TURA</span></h2>
+    <div class="fade-in" style="margin:16px 0 20px">
+      <div class="pyramid-row gold"><div><div class="pr-label">🏆 CAMPEÃO ABC</div><div class="pr-sub">Grande Final · Setembro/Outubro 2026</div></div><div class="pr-icon">👑</div></div>
+      <div class="pyramid-row"><div><div class="pr-label">SEMIFINAL ABC</div><div class="pr-sub">4 campeões regionais se enfrentam</div></div><div class="pr-icon">⚽</div></div>
+      <div class="pyramid-row"><div><div class="pr-label">4 CAMPEÕES REGIONAIS</div><div class="pr-sub">1 por cidade-sede</div></div><div class="pr-icon">🏅</div></div>
+      <div class="pyramid-row"><div><div class="pr-label">64 EQUIPES</div><div class="pr-sub">16 por cidade · Grupos de 4</div></div><div class="pr-icon">👥</div></div>
+    </div>
+    <div class="fade-in">
+      <div class="phase-item">
+        <div class="phase-left"><div class="phase-dot">📍</div><div class="phase-connector"></div></div>
+        <div class="phase-content"><div class="phase-name">FASE REGIONAL</div><div class="phase-desc">64 equipes divididas entre Diadema, Mauá, Santo André e São Bernardo. Cada cidade recebe 16 equipes em grupos de 4.</div><div class="phase-badge">🗓️ INÍCIO: 14 DE SETEMBRO DE 2026</div></div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-left"><div class="phase-dot">🏟️</div><div class="phase-connector"></div></div>
+        <div class="phase-content"><div class="phase-name">SEMIFINAL ABC</div><div class="phase-desc">Os 4 campeões regionais se enfrentam em semifinais únicas para disputar a vaga na grande final do ABC.</div></div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-left"><div class="phase-dot">🏆</div><div class="phase-connector"></div></div>
+        <div class="phase-content"><div class="phase-name">FINAL ABC</div><div class="phase-desc">Os finalistas disputam a grande final da Copa Vaidebet ABC com estrutura completa, palco musical e premiação especial.</div></div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-left"><div class="phase-dot">📅</div></div>
+        <div class="phase-content"><div class="phase-name">PERÍODO</div><div class="phase-desc">Jogos aos fins de semana. Arenas nas comunidades com gramado e estrutura para o público.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S5 SEDES ══ -->
+<section class="slide" id="s5" data-slide="6">
+  <div class="bg-num">06</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in" style="justify-content:center">Sedes Regionais</p>
+    <h2 class="h1 fade-in" style="text-align:center">SEDES <span class="g">REGIONAIS</span></h2>
+    <p style="text-align:center;font-family:'Oswald',sans-serif;font-size:13px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px" class="fade-in">QUATRO CIDADES · QUATRO CAMPEÕES · UMA SÓ COROA</p>
+    <div class="cities-grid fade-in">
+      <!-- Diadema -->
+      <div class="city-card">
+        <div class="ci">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Bras%C3%A3o_de_Diadema_-_SP.svg/240px-Bras%C3%A3o_de_Diadema_-_SP.svg.png" alt="Brasão de Diadema" style="width:56px;height:auto;filter:drop-shadow(0 0 6px rgba(245,197,24,0.3))">
+        </div>
+        <div class="cn">DIADEMA</div>
+        <div class="cp">~393.000 hab.</div>
+        <div class="ct">16 Equipes</div>
+        <div class="cf">Paixão e tradição no futebol de base</div>
+      </div>
+      <!-- Mauá -->
+      <div class="city-card">
+        <div class="ci">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Bras%C3%A3o_de_Mau%C3%A1_-_SP.svg/240px-Bras%C3%A3o_de_Mau%C3%A1_-_SP.svg.png" alt="Brasão de Mauá" style="width:56px;height:auto;filter:drop-shadow(0 0 6px rgba(245,197,24,0.3))">
+        </div>
+        <div class="cn">MAUÁ</div>
+        <div class="cp">~425.000 hab.</div>
+        <div class="ct">16 Equipes</div>
+        <div class="cf">Força e garra das comunidades</div>
+      </div>
+      <!-- Santo André -->
+      <div class="city-card">
+        <div class="ci">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Bras%C3%A3o_de_Santo_Andr%C3%A9_-_SP.svg/240px-Bras%C3%A3o_de_Santo_Andr%C3%A9_-_SP.svg.png" alt="Brasão de Santo André" style="width:56px;height:auto;filter:drop-shadow(0 0 6px rgba(245,197,24,0.3))">
+        </div>
+        <div class="cn">STO. ANDRÉ</div>
+        <div class="cp">~750.000 hab.</div>
+        <div class="ct">16 Equipes</div>
+        <div class="cf">O coração esportivo do ABC</div>
+      </div>
+      <!-- São Bernardo -->
+      <div class="city-card">
+        <div class="ci">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Bras%C3%A3o_de_S%C3%A3o_Bernardo_do_Campo_-_SP.svg/240px-Bras%C3%A3o_de_S%C3%A3o_Bernardo_do_Campo_-_SP.svg.png" alt="Brasão de São Bernardo do Campo" style="width:56px;height:auto;filter:drop-shadow(0 0 6px rgba(245,197,24,0.3))">
+        </div>
+        <div class="cn">S. BERNARDO</div>
+        <div class="cp">~851.000 hab.</div>
+        <div class="ct">16 Equipes</div>
+        <div class="cf">Talentos que nascem, sonhos que crescem</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.25);margin-top:20px" class="fade-in">📍 Estruturas esportivas completas com gramado e arquibancada para o público</p>
+  </div>
+</section>
+
+<!-- ══ S6 EXPERIÊNCIA ══ -->
+<section class="slide" id="s6" data-slide="7">
+  <div class="bg-num">07</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Experiência</p>
+    <h2 class="h1 fade-in">EXPERIÊN<span class="g">CIA</span></h2>
+    <p class="body-text fade-in">Muito além das quatro linhas. Um evento pensado para atletas, torcedores e famílias de todas as comunidades do ABC.</p>
+    <div class="exp-grid fade-in">
+      <div class="exp-card"><div class="ei">👨‍👩‍👧</div><div class="et">Ambiente Familiar</div><div class="ed">Estrutura para toda a família curtir</div></div>
+      <div class="exp-card"><div class="ei">🍔</div><div class="et">Gastronomia</div><div class="ed">Food trucks e praça de alimentação</div></div>
+      <div class="exp-card"><div class="ei">🎵</div><div class="et">Entretenimento</div><div class="ed">Música e atrações nas finais</div></div>
+      <div class="exp-card"><div class="ei">🎁</div><div class="et">Sorteios & Brindes</div><div class="ed">Sorteios de brindes e experiências especiais para o público presente</div></div>
+    </div>
+    <div class="card fade-in" style="margin-top:16px">
+      <div style="font-family:'Oswald',sans-serif;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">Padrão Vaidebet ABC</div>
+      <div class="std-list">
+        <div class="std-item"><div class="std-dot"></div><span>Uniforme premium para todas as 64 equipes</span></div>
+        <div class="std-item"><div class="std-dot"></div><span>Arena padronizada com identidade visual Vaidebet</span></div>
+        <div class="std-item"><div class="std-dot"></div><span>Transmissão ao vivo pelo YouTube em cada rodada</span></div>
+        <div class="std-item"><div class="std-dot"></div><span>Fotógrafo e videomaker profissional em todas as rodadas</span></div>
+        <div class="std-item"><div class="std-dot"></div><span>Sorteio de brindes e premiações especiais para o público</span></div>
+        <div class="std-item"><div class="std-dot"></div><span>Congresso técnico com evento de lançamento oficial</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S7 TRANSMISSÃO ══ -->
+<section class="slide" id="s7" data-slide="8">
+  <div class="bg-num">08</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Mídia</p>
+    <h2 class="h1 fade-in">TRANS<span class="g">MISSÃO</span></h2>
+    <p class="body-text fade-in">Ampla cobertura para conectar comunidades, torcedores e patrocinadores em todo o ABC Paulista.</p>
+    <div class="fade-in">
+      <div class="media-item"><div class="media-icon">📺</div><div><div class="media-title">Transmissão ao Vivo</div><div class="media-desc">Partidas ao vivo pelo YouTube em cada rodada das 4 sedes</div></div></div>
+      <div class="media-item"><div class="media-icon">📱</div><div><div class="media-title">Redes Sociais</div><div class="media-desc">Conteúdo exclusivo, melhores momentos e entrevistas</div></div></div>
+      <div class="media-item"><div class="media-icon">🎬</div><div><div class="media-title">Fotógrafo & Videomaker</div><div class="media-desc">Produção profissional em todas as rodadas</div></div></div>
+      <div class="media-item" style="margin-bottom:0"><div class="media-icon">📰</div><div><div class="media-title">Imprensa & Influenciadores</div><div class="media-desc">Divulgação ampla conectando marca e comunidade</div></div></div>
+    </div>
+    <div class="live-box fade-in">
+      <div class="live-badge">AO VIVO</div>
+      <div class="lt">COPA <span>VAIDEBET</span> ABC</div>
+      <div class="ls">YouTube · 4 sedes · Todas as rodadas</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S8 PREMIAÇÃO ══ -->
+<section class="slide" id="s8" data-slide="9">
+  <div class="bg-num">09</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Premiação</p>
+    <h2 class="h1 fade-in">PREMIA<span class="g">ÇÃO</span></h2>
+    <div class="podium-row fade-in">
+      <div class="podium-item"><div class="pic">🥈</div><div class="plabel">Vice<br>Campeão</div><div class="pval">R$ 30k</div><div class="podium-block pb-2">2º</div></div>
+      <div class="podium-item"><div class="pic">🏆</div><div class="plabel">Campeão<br>ABC</div><div class="pval">R$ 80k</div><div class="podium-block pb-1">1º</div></div>
+      <div class="podium-item"><div class="pic">🏅</div><div class="plabel">Regionais<br>(4x)</div><div class="pval">R$ 13k ea</div><div class="podium-block pb-r">REG</div></div>
+    </div>
+    <table class="awards-table fade-in">
+      <tr><td>🏆 Campeão ABC</td><td>R$ 80.000</td></tr>
+      <tr><td>🥈 Vice Campeão ABC</td><td>R$ 30.000</td></tr>
+      <tr><td>🏅 Prêmio Regional (4x × R$13.000)</td><td>R$ 52.000</td></tr>
+      <tr><td>⚽ Artilheiro por sede (4x × R$1.500)</td><td>R$ 6.000</td></tr>
+      <tr><td>🥅 Goleiro menos vazado (4x × R$1.500)</td><td>R$ 6.000</td></tr>
+      <tr><td>🥇 Troféu + Medalhas Regionais (4x × R$6.000)</td><td>R$ 24.000</td></tr>
+      <tr><td>🏆 Troféu + Medalhas Final Geral</td><td>R$ 7.000</td></tr>
+    </table>
+    <div class="total-strip fade-in">
+      <span class="tsl">Total em Premiação</span>
+      <span class="tsv">R$ 205.000</span>
+    </div>
+    <div class="award-detail fade-in">
+      <strong>🥇 Campeão Regional:</strong> além do prêmio em dinheiro, cada campeão de sede recebe troféu oficial e medalhas para todo o elenco.<br>
+      <strong>🏆 Finalistas (Final Geral):</strong> os dois finalistas da grande final recebem um <strong>uniforme novo completo</strong> para disputar a decisão, além dos troféus e medalhas.
+    </div>
+  </div>
+</section>
+
+<!-- ══ S9 VISIBILIDADE ══ -->
+<section class="slide" id="s9" data-slide="10">
+  <div class="bg-num">10</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Para Marcas</p>
+    <h2 class="h1 fade-in">VISIBI<span class="g">LIDADE</span></h2>
+    <p class="body-text fade-in">A Copa Vaidebet ABC oferece uma plataforma poderosa para conectar marcas a um público apaixonado pelo futebol no Grande ABC.</p>
+    <div class="fade-in">
+      <div class="vis-item"><div class="vis-num">01</div><div><div class="vis-title">Exposição em Diversos Pontos</div><div class="vis-desc">Placares, portões, backdrop, faixas e uniformes em 4 cidades simultâneas</div></div></div>
+      <div class="vis-item"><div class="vis-num">02</div><div><div class="vis-title">Ativações Personalizadas</div><div class="vis-desc">Oportunidades únicas de ativar a marca junto às comunidades e torcedores</div></div></div>
+      <div class="vis-item"><div class="vis-num">03</div><div><div class="vis-title">Associação a Valores Positivos</div><div class="vis-desc">Esporte, comunidade, família, superação e pertencimento</div></div></div>
+      <div class="vis-item"><div class="vis-num">04</div><div><div class="vis-title">Grande Alcance Digital e Presencial</div><div class="vis-desc">YouTube, redes sociais, imprensa e +2,5 milhões de habitantes potencialmente impactados</div></div></div>
+    </div>
+    <div class="brand-tags fade-in">
+      <div class="brand-tag">Placares</div><div class="brand-tag">Uniformes</div><div class="brand-tag">Backdrop</div><div class="brand-tag">Portões</div><div class="brand-tag">YouTube</div><div class="brand-tag">Redes Sociais</div><div class="brand-tag">Faixas</div><div class="brand-tag">Kit Campo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S10 FINANCEIRO ══ -->
+<section class="slide" id="s10" data-slide="11">
+  <div class="bg-num">11</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in">Investimento</p>
+    <h2 class="h1 fade-in" style="font-size:clamp(38px,9vw,72px)">PLANO <span class="g">FINANCEIRO</span></h2>
+    <div class="finance-grid-desk fade-in">
+      <div class="fin-cat">
+        <div class="fin-cat-title">🏆 Premiação</div>
+        <div class="fin-row"><span class="fn">Campeão ABC</span><span class="fv">R$ 80.000</span></div>
+        <div class="fin-row"><span class="fn">Vice Campeão ABC</span><span class="fv">R$ 30.000</span></div>
+        <div class="fin-row"><span class="fn">Prêmio Regional (4x)</span><span class="fv">R$ 52.000</span></div>
+        <div class="fin-row"><span class="fn">Artilheiro (4x)</span><span class="fv">R$ 6.000</span></div>
+        <div class="fin-row"><span class="fn">Goleiro (4x)</span><span class="fv">R$ 6.000</span></div>
+        <div class="fin-row"><span class="fn">Troféus/Medalhas Regionais (4x)</span><span class="fv">R$ 24.000</span></div>
+        <div class="fin-row"><span class="fn">Troféus/Medalhas Final Geral</span><span class="fv">R$ 7.000</span></div>
+        <div class="fin-subtotal"><span class="fs-label">Subtotal</span><span class="fs-val">R$ 205.000</span></div>
+      </div>
+      <div class="fin-cat">
+        <div class="fin-cat-title">🏟️ Estrutura & Apoio</div>
+        <div class="fin-row"><span class="fn">Bolas Society/Oficial (80 un.)</span><span class="fv">R$ 8.000</span></div>
+        <div class="fin-row"><span class="fn">Cobertura/Transmissão (4 coberturas)</span><span class="fv">R$ 28.000</span></div>
+        <div class="fin-row"><span class="fn">Fotógrafo/Videomaker (4 rodadas)</span><span class="fv">R$ 16.000</span></div>
+        <div class="fin-row"><span class="fn">Manutenção Arena/Equipe de Apoio (4x)</span><span class="fv">R$ 80.000</span></div>
+        <div class="fin-subtotal"><span class="fs-label">Subtotal</span><span class="fs-val">R$ 132.000</span></div>
+      </div>
+      <div class="fin-cat">
+        <div class="fin-cat-title">📣 Marketing & Congresso</div>
+        <div class="fin-row"><span class="fn">Kit Campo — Pórtico/Base/Backdrop/Faixa (4x)</span><span class="fv">R$ 60.000</span></div>
+        <div class="fin-row"><span class="fn">Congresso Técnico / Evento Abertura (4x)</span><span class="fv">R$ 12.000</span></div>
+        <div class="fin-subtotal"><span class="fs-label">Subtotal</span><span class="fs-val">R$ 72.000</span></div>
+      </div>
+      <div class="fin-cat">
+        <div class="fin-cat-title">👕 Padrão & Institucional</div>
+        <div class="fin-row"><span class="fn">Uniforme completo — 64 equipes (× R$3.600)</span><span class="fv">R$ 230.400</span></div>
+        <div class="fin-row"><span class="fn">Evento Final (Conjunto Musical/Palco)</span><span class="fv">R$ 20.000</span></div>
+        <div class="fin-subtotal"><span class="fs-label">Subtotal</span><span class="fs-val">R$ 250.400</span></div>
+      </div>
+    </div>
+    <div class="soma-box fade-in">
+      <span class="sl">Soma dos Itens</span>
+      <span class="sv">R$ 659.400</span>
+    </div>
+    <div class="agenc-box fade-in">
+      <div class="al">💼 Agenciamento Evolut<br><span style="font-size:10px;color:rgba(255,255,255,0.35);">Incluso impostos e nota fiscal</span></div>
+      <div class="av">R$ 176.600</div>
+    </div>
+    <div class="grand-box fade-in">
+      <div class="gl">Investimento Total</div>
+      <div class="gv">R$ 836.000</div>
+      <div class="gs">Copa Vaidebet ABC Paulista · Início 14/09/2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S11 EVOLUT ══ -->
+<section class="slide" id="s11" data-slide="12">
+  <div class="bg-num">12</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <div class="evolut-center fade-in">
+      <span class="evolut-icon">⚡</span>
+      <div class="evolut-name">EVOLUT</div>
+      <div class="evolut-sub">Sports &amp; Events</div>
+      <div class="evolut-tagline">Transformamos ideias em grandes eventos.</div>
+    </div>
+    <div class="fade-in">
+      <div class="evolut-feat"><div class="efi">🏆</div><div class="eft"><strong>Gestão Esportiva com Excelência</strong><span>Coordenação completa da competição do início ao fim</span></div></div>
+      <div class="evolut-feat"><div class="efi">🤝</div><div class="eft"><strong>Eventos que Conectam Pessoas e Marcas</strong><span>Experiências que geram impacto real e duradouro</span></div></div>
+      <div class="evolut-feat"><div class="efi">⚙️</div><div class="eft"><strong>Estrutura Completa e Profissional</strong><span>Toda a logística, equipe e recursos necessários</span></div></div>
+      <div class="evolut-feat"><div class="efi">🎯</div><div class="eft"><strong>Paixão por Esporte, Foco em Resultados</strong><span>Transformamos ideias em grandes eventos</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S12 FECHAMENTO ══ -->
+<section class="slide" id="s12" data-slide="13">
+  <div class="bg-num">13</div>
+  <div style="position:relative;z-index:5;width:100%">
+    <p class="label fade-in" style="justify-content:center;margin-bottom:16px">Copa Vaidebet ABC</p>
+    <div class="stars fade-in"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+    <h2 class="h1 fade-in" style="text-align:center;font-size:clamp(40px,11vw,80px)">VAMOS JUNTOS<br><span class="g">FAZER HISTÓRIA</span></h2>
+    <div class="close-divider fade-in"></div>
+    <p class="close-body fade-in">A Copa Vaidebet ABC é mais que uma competição. É um movimento que une o ABC Paulista, transforma realidades e escreve novos capítulos para o futebol amador. <strong>Contamos com você nessa jornada. Início: 14 de Setembro de 2026.</strong></p>
+    <div class="brands-row fade-in">
+      <div class="br-name">EVOLUT</div>
+      <div class="br-sep"></div>
+      <div class="br-main">COPA VAIDEBET ABC</div>
+      <div class="br-sep"></div>
+      <div class="br-name">2026</div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var slides = document.querySelectorAll('.slide');
+  var nav = document.getElementById('navDots');
+  var dots = [];
+  slides.forEach(function(s,i){
+    var d = document.createElement('button');
+    d.className='nav-dot';
+    d.addEventListener('click',function(){ s.scrollIntoView({behavior:'smooth'}); });
+    nav.appendChild(d); dots.push(d);
+  });
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx=Array.from(slides).indexOf(e.target);
+        dots.forEach(function(d,i){ d.classList.toggle('active',i===idx); });
+        e.target.querySelectorAll('.fade-in').forEach(function(el,i){
+          setTimeout(function(){ el.classList.add('show'); },i*60);
+        });
+      }
+    });
+  },{threshold:0.35});
+  slides.forEach(function(s){ io.observe(s); });
+  document.addEventListener('keydown',function(e){
+    var cur=getCurrentIdx();
+    if(e.key==='ArrowDown'||e.key===' '){ e.preventDefault(); if(cur<slides.length-1) slides[cur+1].scrollIntoView({behavior:'smooth'}); }
+    if(e.key==='ArrowUp'){ e.preventDefault(); if(cur>0) slides[cur-1].scrollIntoView({behavior:'smooth'}); }
+  });
+  function getCurrentIdx(){ var best=0,bd=Infinity; slides.forEach(function(s,i){ var d=Math.abs(s.getBoundingClientRect().top); if(d<bd){bd=d;best=i;} }); return best; }
+})();
+</script>
+</body>
+</html>
